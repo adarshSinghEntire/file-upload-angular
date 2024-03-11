@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FileUploadService } from '../service/file-upload.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -17,7 +18,7 @@ export class FileUploadComponent {
   // isMaxFileSize:boolean = false;
   public fileType: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private fileUploadService: FileUploadService) {
     this.form = this.fb.group({
       files: [[], [Validators.required]]
     });
@@ -27,6 +28,7 @@ export class FileUploadComponent {
   get fval() { return this.form.controls; }
   isInvalidType:boolean = false;
 
+  arrUpload:any = [];
   onFileChange(event: any): void {
     const selectedFiles: FileList = event.target.files;
    
@@ -50,6 +52,9 @@ export class FileUploadComponent {
 
           if (this.totalFileSize <= this.maxTotalFileSize) {
             this.files.push(file);
+            this.arrUpload.push({
+              file: file
+            });
           }
           else {
             this.isMaxFileSize = true;
@@ -104,8 +109,28 @@ export class FileUploadComponent {
     if (this.form.valid) {
       // Perform file upload actions
       console.log('Files uploaded successfully:', this.files);
+      this.arrUpload?.forEach((element:any) => {
+        this.upload(element.file);
+       });
+
     } else {
       console.error('Form is invalid. Please check your files.');
     }
+  }
+
+  resDataArr:any = [];
+  upload(file:any){
+    if (file) {
+      console.log(file);
+      this.fileUploadService.upload(file).subscribe((event: any) => {
+        console.log();
+        this.resDataArr.push(event)
+        if (typeof event === 'object') {
+          // Short link via api response
+        }
+      });
+    }
+
+    
   }
 }

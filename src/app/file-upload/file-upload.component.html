@@ -34,9 +34,12 @@
 </div> -->
 
 <div class="container">
+    <button type="submit" type="button" class="btn btn-primary"
+             [disabled]="form.invalid || totalFileSize > maxTotalFileSize"
+             (click)="onSubmit()">Upload</button>
     <div class="card">
       <h3>Upload Files</h3>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form [formGroup]="form">
         <div class="drop_box">
             <header>
               <h4>Select File here</h4>
@@ -44,6 +47,7 @@
             <p>Files Supported: {{fileType}} up to 2 MB</p>
             <input #file multiple type="file" hidden accept="{{fileType}}" id="fileID" (change)="onFileChange($event)" style="display:none;">
             <button class="btn" (click)="file.click()">Choose File</button>
+            
 
             <div class="erorBox">
                 <div class="invalid-feedback" *ngIf="fval['files'].touched && fval['files'].errors">
@@ -67,5 +71,9 @@
             </div>
            </div>
       </div>
+    </div>
+
+    <div *ngFor="let d of resDataArr">
+        {{d.link}}
     </div>
   </div>
