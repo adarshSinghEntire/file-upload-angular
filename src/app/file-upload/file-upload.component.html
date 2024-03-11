@@ -1,0 +1,71 @@
+ 
+
+<!-- <div class="container py-5">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="fileInput">Select Files: of {{totalFileSize |fileSize }}</label>
+            <div>
+                {{fileType}} up to 2 MB
+            </div>
+
+            <input type="file" id="fileInput" multiple (change)="onFileChange($event)">
+    
+            <div class="alert alert-primary" role="alert" *ngFor="let file of files; let i = index">
+               <div class="fileNameAndRemove">
+                    <div>{{ file.name }} - <b>{{ file.size | fileSize  }} </b></div>
+                    <button type="button" (click)="onFileRemoved(i)" class="btn btn-danger">Remove</button>
+               </div>
+              </div>
+     
+            <div class="invalid-feedback" *ngIf="fval['files'].touched && fval['files'].errors">
+                <span *ngIf="fval['files'].errors['required']">Please select at least one file.</span>
+            </div>
+             
+            <div *ngIf="isMaxFileSize" class="invalid-feedback">
+                Total file size exceeds the maximum limit of 2 MB.
+            </div>
+             <p *ngIf="isInvalidType" class="invalid-feedback">File/Document type are not allowed.</p>
+            
+            <div class="my-3">
+                <button type="submit" type="button" class="btn btn-primary" [disabled]="form.invalid || totalFileSize > maxTotalFileSize">Upload</button>
+            </div>
+        </div>
+    </form>
+</div> -->
+
+<div class="container">
+    <div class="card">
+      <h3>Upload Files</h3>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="drop_box">
+            <header>
+              <h4>Select File here</h4>
+            </header>
+            <p>Files Supported: {{fileType}} up to 2 MB</p>
+            <input #file multiple type="file" hidden accept="{{fileType}}" id="fileID" (change)="onFileChange($event)" style="display:none;">
+            <button class="btn" (click)="file.click()">Choose File</button>
+
+            <div class="erorBox">
+                <div class="invalid-feedback" *ngIf="fval['files'].touched && fval['files'].errors">
+                    <span *ngIf="fval['files'].errors['required']">Please select at least one file.</span>
+                </div>
+                 
+                <div *ngIf="isMaxFileSize" class="invalid-feedback">
+                    Total file size exceeds the maximum limit of 2 MB.
+                </div>
+                 <p *ngIf="isInvalidType" class="invalid-feedback">File/Document type are not allowed.</p>
+                
+            </div>
+            
+          </div>
+      </form>
+      <div class="fileBox">
+        <div class="alert alert-primary" role="alert" *ngFor="let file of files; let i = index">
+            <div class="fileNameAndRemove">
+                 <div>{{ file.name }} - <b>{{ file.size | fileSize  }} </b></div>
+                 <button type="button" (click)="onFileRemoved(i)" class="btn btn-danger">Remove</button>
+            </div>
+           </div>
+      </div>
+    </div>
+  </div>
